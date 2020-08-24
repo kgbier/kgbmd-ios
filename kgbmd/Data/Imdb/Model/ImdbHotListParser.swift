@@ -1,6 +1,6 @@
 import Foundation
 
-class ImdbHotList {
+class ImdbHotListParser {
 
     // <span name="ir" data-value="8.8"></span>
     private static let RATING_LOWER = "data-value=\""
@@ -24,8 +24,8 @@ class ImdbHotList {
         self.source = source
     }
 
-    func getList() -> [HotListItem] {
-        var list: [HotListItem] = []
+    func getList() -> [ImdbHotListItem] {
+        var list: [ImdbHotListItem] = []
 
         while(readPointer < source.endIndex) {
             getNextItem().map { list.append($0) }
@@ -34,7 +34,7 @@ class ImdbHotList {
         return list
     }
 
-    private func getNextItem() -> HotListItem? {
+    private func getNextItem() -> ImdbHotListItem? {
         guard findPosterSection() else { return nil }
         guard findPosterSectionRating() else { return nil }
         let rating = extractFromBounds(lower: Self.RATING_LOWER, upper: Self.RATING_UPPER)
@@ -47,7 +47,7 @@ class ImdbHotList {
         let ttid = extractFromBounds(lower: Self.TTID_LOWER, upper: Self.TTID_UPPER)
         let name = extractFromBounds(lower: Self.NAME_LOWER, upper: Self.NAME_UPPER)
 
-        return HotListItem(ttid: ttid, name: name, rating: rating, imageUrl: imageUrl)
+        return ImdbHotListItem(ttid: ttid, name: name, rating: rating, imageUrl: imageUrl)
     }
 
     private var readPointer: Data.Index = 0
