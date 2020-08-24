@@ -1,4 +1,5 @@
 import UIKit
+import Combine
 
 class RootNavigationController: UINavigationController {
 
@@ -16,6 +17,12 @@ class ViewController: UIViewController {
 
     let testPosterView = PosterView()
 
+    let tableView = UITableView()
+
+    private var cancellable: AnyCancellable? = nil
+
+    var data: [MoviePoster] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,21 +30,53 @@ class ViewController: UIViewController {
 
         navigationItem.title = "Hot films"
 
-        view.addSubview(testPosterView)
+        tableView.dataSource = self
 
-        testPosterView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(SubtitleTableViewCell.self, forCellReuseIdentifier: "cell")
+
+        view.addSubview(tableView)
+
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            testPosterView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            testPosterView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            testPosterView.widthAnchor.constraint(equalToConstant: 96),
-            testPosterView.heightAnchor.constraint(equalToConstant: 128)
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
 
-        _ = ImdbRepo.getMovieHotListPosters().sink { (it) in
-            print(it)
+
+        cancellable = ImdbRepo.getMovieHotListPosters().sink { [weak self] (it) in
+            self?.data = it
+            self?.tableView.reloadData()
         }
     }
 
+}
+
+extension ViewController : UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        data.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let item = data[indexPath.item]
+
+        cell.textLabel?.text = item.title
+        cell.detailTextLabel?.text = item.rating
+
+        return cell
+    }
+}
+
+class SubtitleTableViewCell: UITableViewCell {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 class PosterView: UIView {
