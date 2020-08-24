@@ -19,7 +19,7 @@ class ViewController: UIViewController {
 
     let tableView = UITableView()
 
-    private var cancellable: AnyCancellable? = nil
+    private var cancellables: [AnyCancellable] = []
 
     var data: [MoviePoster] = []
 
@@ -44,11 +44,10 @@ class ViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
 
-
-        cancellable = ImdbRepo.getMovieHotListPosters().sink { [weak self] (it) in
+        ImdbRepo.getMovieHotListPosters().sink { [weak self] (it) in
             self?.data = it
             self?.tableView.reloadData()
-        }
+        }.store(in: &cancellables)
     }
 
 }
