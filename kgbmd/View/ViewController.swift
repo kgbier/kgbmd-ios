@@ -15,6 +15,50 @@ class RootNavigationController: UINavigationController {
 
 class SearchResultsViewController: UIViewController {
 
+    let tableView = UITableView()
+
+    var data: [String] = ["abc", "123"]
+
+    override func viewDidLoad() {
+
+        tableView.dataSource = self
+
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+
+        view.addSubview(tableView)
+
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+    }
+
+}
+
+extension SearchResultsViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        data[0] = searchController.searchBar.text ?? "--"
+        tableView.reloadData()
+    }
+}
+
+extension SearchResultsViewController : UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        data.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let item = data[indexPath.item]
+
+        cell.textLabel?.text = item
+
+        return cell
+    }
 }
 
 class ViewController: UIViewController {
@@ -23,7 +67,7 @@ class ViewController: UIViewController {
 
     let tableView = UITableView()
 
-    let resultsTableViewController: SearchResultsViewController
+    let searchResultsViewController: SearchResultsViewController
     let searchController: UISearchController
 
     private var cancellables: [AnyCancellable] = []
@@ -31,8 +75,8 @@ class ViewController: UIViewController {
     var data: [MoviePoster] = []
 
     init() {
-        resultsTableViewController = SearchResultsViewController()
-        searchController = UISearchController(searchResultsController: self.resultsTableViewController)
+        searchResultsViewController = SearchResultsViewController()
+        searchController = UISearchController(searchResultsController: searchResultsViewController)
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -46,11 +90,9 @@ class ViewController: UIViewController {
 
         view.backgroundColor = .systemBackground
 
-        searchController.delegate = self
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.autocapitalizationType = .none
+        searchController.searchResultsUpdater = searchResultsViewController
         searchController.obscuresBackgroundDuringPresentation = true
-        searchController.searchBar.delegate = self
+        searchController.searchBar.autocapitalizationType = .none
 
         navigationItem.title = "Hot films"
         navigationItem.searchController = searchController
@@ -76,15 +118,6 @@ class ViewController: UIViewController {
         }.store(in: &cancellables)
     }
 
-}
-
-extension ViewController: UISearchControllerDelegate { }
-
-extension ViewController: UISearchBarDelegate { }
-
-extension ViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-    }
 }
 
 extension ViewController : UITableViewDataSource {
