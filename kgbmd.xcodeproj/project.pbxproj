@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32F6801724F5083A00F49152 /* ImdbSuggestionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F6801624F5083A00F49152 /* ImdbSuggestionResponse.swift */; };
 		A846A9E223924B9E00C2CF13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A846A9E123924B9E00C2CF13 /* AppDelegate.swift */; };
 		A846A9E423924B9E00C2CF13 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A846A9E323924B9E00C2CF13 /* SceneDelegate.swift */; };
 		A846A9E623924B9E00C2CF13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A846A9E523924B9E00C2CF13 /* ViewController.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		32F6801624F5083A00F49152 /* ImdbSuggestionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImdbSuggestionResponse.swift; sourceTree = "<group>"; };
 		A846A9DE23924B9E00C2CF13 /* kgbmd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kgbmd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A846A9E123924B9E00C2CF13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A846A9E323924B9E00C2CF13 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,7 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				A846A9FF2392504700C2CF13 /* ImdbHotListItem.swift */,
-				A846AA04239251F400C2CF13 /* ImdbHotListParser.swift */,
+				32F6801624F5083A00F49152 /* ImdbSuggestionResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -80,6 +82,14 @@
 				A846A9E523924B9E00C2CF13 /* ViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		32F6801524F5081900F49152 /* Operation */ = {
+			isa = PBXGroup;
+			children = (
+				A846AA04239251F400C2CF13 /* ImdbHotListParser.swift */,
+			);
+			path = Operation;
 			sourceTree = "<group>";
 		};
 		A846A9D523924B9E00C2CF13 = {
@@ -126,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				32C7041D24F3BF6000B27148 /* Model */,
+				32F6801524F5081900F49152 /* Operation */,
 				A846A9F823924E7C00C2CF13 /* ImdbService.swift */,
 			);
 			path = Imdb;
@@ -238,6 +249,7 @@
 				A846AA07239254F000C2CF13 /* JsonP.swift in Sources */,
 				A846A9E623924B9E00C2CF13 /* ViewController.swift in Sources */,
 				A846A9F923924E7C00C2CF13 /* ImdbService.swift in Sources */,
+				32F6801724F5083A00F49152 /* ImdbSuggestionResponse.swift in Sources */,
 				A846AA002392504700C2CF13 /* ImdbHotListItem.swift in Sources */,
 				A846A9E223924B9E00C2CF13 /* AppDelegate.swift in Sources */,
 				A846AA022392509E00C2CF13 /* MoviePoster.swift in Sources */,

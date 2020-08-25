@@ -7,4 +7,9 @@ struct ImdbRepo {
             it.map(ImdbHotListItem.transform)
         }.eraseToAnyPublisher()
     }
+
+    static func getSearchResults(for query: String) -> AnyPublisher<[String], Never> {
+        return ImdbService.search(for: query)
+            .eraseToAnyPublisher()
+    }
 }

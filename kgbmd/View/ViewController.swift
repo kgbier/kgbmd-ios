@@ -17,7 +17,9 @@ class SearchResultsViewController: UIViewController {
 
     let tableView = UITableView()
 
-    var data: [String] = ["abc", "123"]
+    private var cancellables: [AnyCancellable] = []
+
+    var data: [String] = []
 
     override func viewDidLoad() {
 
@@ -41,8 +43,12 @@ class SearchResultsViewController: UIViewController {
 
 extension SearchResultsViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        data[0] = searchController.searchBar.text ?? "--"
-        tableView.reloadData()
+        guard let query = searchController.searchBar.text, query.count > 0 else { return }
+
+        ImdbRepo.getSearchResults(for: query).sink { it in
+            self.data = it
+            self.tableView.reloadData()
+        }.store(in: &cancellables)
     }
 }
 
