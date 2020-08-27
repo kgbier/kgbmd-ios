@@ -2,14 +2,14 @@ import UIKit
 import Combine
 
 class PosterGridCollectionView: UICollectionView {
+
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 16
         layout.minimumInteritemSpacing = 16
-        layout.estimatedItemSize = CGSize(width: 96, height: 128)
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         super.init(frame: .zero, collectionViewLayout: layout)
         backgroundColor = .clear
-
         dataSource = self
         register(PosterViewCell.self, forCellWithReuseIdentifier: "poster")
     }
@@ -66,12 +66,12 @@ class MainViewController: UIViewController {
 
         posterGridView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            posterGridView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            posterGridView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             posterGridView.topAnchor.constraint(equalTo: view.topAnchor),
-            posterGridView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            posterGridView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             posterGridView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        posterGridView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        posterGridView.contentInset = UIEdgeInsets(top: 16, left: 16, bottom: 0, right: 16)
 
         //        ImdbRepo.getMovieHotListPosters().sink { it in
         //            self.data = it

@@ -25,7 +25,9 @@ class PosterViewCell: UICollectionViewCell {
             posterView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             posterView.topAnchor.constraint(equalTo: contentView.topAnchor),
             posterView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            posterView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            posterView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            posterView.widthAnchor.constraint(equalToConstant: 100),
+            posterView.heightAnchor.constraint(equalToConstant: 148),
         ])
     }
 
