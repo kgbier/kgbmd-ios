@@ -1,11 +1,39 @@
 import UIKit
 import Combine
 
+class PosterGridCollectionView: UICollectionView {
+    init() {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 16
+        layout.minimumInteritemSpacing = 16
+        layout.estimatedItemSize = CGSize(width: 96, height: 128)
+        super.init(frame: .zero, collectionViewLayout: layout)
+        backgroundColor = .clear
+
+        dataSource = self
+        register(PosterViewCell.self, forCellWithReuseIdentifier: "poster")
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension PosterGridCollectionView: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        20
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        collectionView.dequeueReusableCell(withReuseIdentifier: "poster", for: indexPath)
+    }
+}
+
 class MainViewController: UIViewController {
 
     let testPosterView = PosterView()
 
-    let tableView = UITableView()
+    let posterGridView = PosterGridCollectionView()
 
     let searchResultsViewController: MainSearchResultsViewController
     let searchController: UISearchController
@@ -21,10 +49,6 @@ class MainViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,40 +62,24 @@ class MainViewController: UIViewController {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
 
-        tableView.dataSource = self
+        view.addSubview(posterGridView)
 
-        tableView.register(SubtitleTableViewCell.self, forCellReuseIdentifier: "cell")
-
-        view.addSubview(tableView)
-
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        posterGridView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            posterGridView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            posterGridView.topAnchor.constraint(equalTo: view.topAnchor),
+            posterGridView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            posterGridView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        posterGridView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
 
-        ImdbRepo.getMovieHotListPosters().sink { it in
-            self.data = it
-            self.tableView.reloadData()
-        }.store(in: &cancellables)
+        //        ImdbRepo.getMovieHotListPosters().sink { it in
+        //            self.data = it
+        //            self.tableView.reloadData()
+        //        }.store(in: &cancellables)
     }
 
-}
-
-extension MainViewController : UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        data.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let item = data[indexPath.item]
-
-        cell.textLabel?.text = item.title
-        cell.detailTextLabel?.text = item.rating
-
-        return cell
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
