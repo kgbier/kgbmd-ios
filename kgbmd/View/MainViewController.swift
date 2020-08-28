@@ -3,6 +3,8 @@ import Combine
 
 class PosterGridCollectionView: UICollectionView {
 
+    var data: [MoviePoster] = []
+
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 16
@@ -21,11 +23,20 @@ class PosterGridCollectionView: UICollectionView {
 
 extension PosterGridCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        20
+        data.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        collectionView.dequeueReusableCell(withReuseIdentifier: "poster", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "poster", for: indexPath) as! PosterViewCell
+        let poster = cell.posterView
+
+        let item = data[indexPath.item]
+
+        poster.update(rating: item.rating)
+        poster.update(title: item.title)
+//        poster.update(imageUrl: item.posterUrlSmall, thumbnailUrl: item.thumbnailUrl)
+
+        return cell
     }
 }
 
@@ -73,10 +84,10 @@ class MainViewController: UIViewController {
         ])
         posterGridView.contentInset = UIEdgeInsets(top: 16, left: 16, bottom: 0, right: 16)
 
-        //        ImdbRepo.getMovieHotListPosters().sink { it in
-        //            self.data = it
-        //            self.tableView.reloadData()
-        //        }.store(in: &cancellables)
+        ImdbRepo.getMovieHotListPosters().sink { it in
+            self.posterGridView.data = it
+            self.posterGridView.reloadData()
+        }.store(in: &cancellables)
     }
 
     required init?(coder aDecoder: NSCoder) {

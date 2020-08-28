@@ -33,7 +33,7 @@ class PosterView: UIView {
         // MARK: Title label
         addSubview(bottomScrim) // Add beneath
 
-        titleLabel.text = "The Dark Knight"
+        titleLabel.numberOfLines = 0
         titleLabel.font = .systemFont(ofSize: 12)
         titleLabel.textColor = .white
 
@@ -48,7 +48,6 @@ class PosterView: UIView {
         // MARK: Rating label
         addSubview(ratingLabelScrim) // Add beneath
 
-        ratingLabel.text = "8.9"
         ratingLabel.font = .systemFont(ofSize: 12)
         ratingLabel.textColor = .white
 
@@ -104,6 +103,24 @@ class PosterView: UIView {
         ratingLabelScrimGradient.frame = ratingLabelScrim.bounds
     }
 
+
+//    func update(imageUrl: String, thumbnailUrl: String) {
+//    }
+
+    func update(title: String) {
+        titleLabel.text = title
+    }
+
+    func update(rating: String?) {
+        guard let rating = rating else {
+            ratingLabelScrim.isHidden = true
+            return
+        }
+
+        ratingLabel.text = rating
+        ratingLabelScrim.isHidden = false
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -111,18 +128,19 @@ class PosterView: UIView {
 
 class PosterViewCell: UICollectionViewCell {
 
+    let posterView = PosterView()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        let posterView = PosterView()
-        contentView.addSubview(posterView)
+        addSubview(posterView)
 
         posterView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            posterView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            posterView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            posterView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            posterView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            posterView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            posterView.topAnchor.constraint(equalTo: topAnchor),
+            posterView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            posterView.bottomAnchor.constraint(equalTo: bottomAnchor),
             posterView.widthAnchor.constraint(equalToConstant: 100),
             posterView.heightAnchor.constraint(equalToConstant: 148),
         ])
