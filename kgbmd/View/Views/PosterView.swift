@@ -22,6 +22,8 @@ class PosterView: UIView {
         clipsToBounds = true
 
         // MARK: Poster image
+        posterImageView.contentMode = .scaleAspectFill
+
         addSubview(posterImageView)
         posterImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -35,6 +37,7 @@ class PosterView: UIView {
         addSubview(bottomScrim) // Add beneath
 
         titleLabel.numberOfLines = 0
+        titleLabel.textAlignment = .right
         titleLabel.font = .systemFont(ofSize: 12)
         titleLabel.textColor = .white
 
@@ -68,7 +71,11 @@ class PosterView: UIView {
             bottomScrim.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -8),
         ])
 
-        bottomScrimGradient.colors = [UIColor.black.cgColor, UIColor.clear.cgColor]
+        bottomScrimGradient.colors = [
+            UIColor.black.cgColor,
+            CGColor(srgbRed: 0, green: 0, blue: 0, alpha: 170),
+            UIColor.clear.cgColor,
+        ]
 
         bottomScrimGradient.startPoint = CGPoint(x: 0, y: 1)
         bottomScrimGradient.endPoint = CGPoint(x: 0, y: 0)
