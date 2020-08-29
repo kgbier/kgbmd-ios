@@ -20,9 +20,9 @@ extension ImdbHotListItem {
             ttid: item.ttid,
             title: item.name,
             rating: validatedRating,
-            thumbnailUrl: item.imageUrl,
-            posterUrlSmall: ImdbImageResizer.resize(imageUrl: item.imageUrl, size: ImdbImageResizer.SIZE_WIDTH_MEDIUM),
-            posterUrlLarge: ImdbImageResizer.resize(imageUrl: item.imageUrl, size: ImdbImageResizer.SIZE_WIDTH_LARGE)
+            thumbnailUrl: URL(string: item.imageUrl)!,
+            posterUrlSmall: URL(string: ImdbImageResizer.resize(imageUrl: item.imageUrl, size: ImdbImageResizer.SIZE_WIDTH_MEDIUM))!,
+            posterUrlLarge: URL(string: ImdbImageResizer.resize(imageUrl: item.imageUrl, size: ImdbImageResizer.SIZE_WIDTH_LARGE))!
         )
     }
 }

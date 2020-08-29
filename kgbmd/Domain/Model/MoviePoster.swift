@@ -4,8 +4,8 @@ struct MoviePoster {
     let ttid: String
     let title: String
     let rating: String?
-    let thumbnailUrl: String
-    let posterUrlSmall: String
-    let posterUrlLarge: String
+    let thumbnailUrl: URL
+    let posterUrlSmall: URL
+    let posterUrlLarge: URL
 }
 

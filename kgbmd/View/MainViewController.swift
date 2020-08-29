@@ -9,7 +9,7 @@ class PosterGridCollectionView: UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 16
         layout.minimumInteritemSpacing = 16
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.itemSize = CGSize(width: 100, height: 148)
         super.init(frame: .zero, collectionViewLayout: layout)
         backgroundColor = .clear
         dataSource = self
@@ -34,7 +34,7 @@ extension PosterGridCollectionView: UICollectionViewDataSource {
 
         poster.update(rating: item.rating)
         poster.update(title: item.title)
-//        poster.update(imageUrl: item.posterUrlSmall, thumbnailUrl: item.thumbnailUrl)
+        poster.update(imageUrl: item.posterUrlSmall, thumbnailUrl: item.thumbnailUrl)
 
         return cell
     }

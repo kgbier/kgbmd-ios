@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 class PosterView: UIView {
 
@@ -103,9 +104,16 @@ class PosterView: UIView {
         ratingLabelScrimGradient.frame = ratingLabelScrim.bounds
     }
 
-
-//    func update(imageUrl: String, thumbnailUrl: String) {
-//    }
+    func update(imageUrl: URL, thumbnailUrl: URL) {
+        KingfisherManager.shared.downloader.downloadImage(with: thumbnailUrl) { result in
+            switch result {
+            case .success(let image):
+                self.posterImageView.kf.setImage(with: imageUrl, placeholder: image.image)
+            default:
+                break
+            }
+        }
+    }
 
     func update(title: String) {
         titleLabel.text = title
@@ -113,6 +121,7 @@ class PosterView: UIView {
 
     func update(rating: String?) {
         guard let rating = rating else {
+            ratingLabel.text = nil
             ratingLabelScrim.isHidden = true
             return
         }
@@ -133,16 +142,14 @@ class PosterViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        addSubview(posterView)
+        contentView.addSubview(posterView)
 
         posterView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            posterView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            posterView.topAnchor.constraint(equalTo: topAnchor),
-            posterView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            posterView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            posterView.widthAnchor.constraint(equalToConstant: 100),
-            posterView.heightAnchor.constraint(equalToConstant: 148),
+            posterView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            posterView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            posterView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            posterView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
 
