@@ -112,10 +112,15 @@ class PosterView: UIView {
     }
 
     func update(imageUrl: URL, thumbnailUrl: URL) {
-        KingfisherManager.shared.downloader.downloadImage(with: thumbnailUrl) { result in
+        posterImageView.image = nil
+        KingfisherManager.shared.retrieveImage(with: thumbnailUrl) { result in
             switch result {
-            case .success(let image):
-                self.posterImageView.kf.setImage(with: imageUrl, placeholder: image.image)
+            case .success(let imageResult):
+                self.posterImageView.kf.setImage(
+                    with: imageUrl,
+                    placeholder: imageResult.image,
+                    options: [.transition(.fade(1))]
+                )
             default:
                 break
             }
