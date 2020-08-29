@@ -5,7 +5,7 @@ class PosterView: UIView {
 
     let posterImageView = UIImageView()
     let titleLabel = UILabel()
-    let ratingLabel = UILabel()
+    let ratingStarView = RatingStarView()
 
     let bottomScrimGradient = CAGradientLayer()
     let bottomScrim = UIView()
@@ -49,17 +49,14 @@ class PosterView: UIView {
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4)
         ])
 
-        // MARK: Rating label
+        // MARK: Rating star view
         addSubview(ratingLabelScrim) // Add beneath
 
-        ratingLabel.font = .systemFont(ofSize: 12)
-        ratingLabel.textColor = .white
-
-        addSubview(ratingLabel)
-        ratingLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(ratingStarView)
+        ratingStarView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            ratingLabel.topAnchor.constraint(equalTo: topAnchor, constant: 4),
-            ratingLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4),
+            ratingStarView.topAnchor.constraint(equalTo: topAnchor, constant: 4),
+            ratingStarView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4),
         ])
 
         // MARK: Scrim
@@ -84,7 +81,7 @@ class PosterView: UIView {
 
         ratingLabelScrim.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            ratingLabelScrim.leadingAnchor.constraint(equalTo: ratingLabel.leadingAnchor, constant: -24),
+            ratingLabelScrim.leadingAnchor.constraint(equalTo: ratingStarView.leadingAnchor, constant: -24),
             ratingLabelScrim.topAnchor.constraint(equalTo: topAnchor),
             ratingLabelScrim.trailingAnchor.constraint(equalTo: trailingAnchor),
             ratingLabelScrim.heightAnchor.constraint(equalTo: ratingLabelScrim.widthAnchor)
@@ -92,7 +89,7 @@ class PosterView: UIView {
 
         ratingLabelScrimGradient.colors = [
             UIColor.black.cgColor,
-            CGColor(srgbRed: 0, green: 0, blue: 0, alpha: 170),
+            CGColor(srgbRed: 0, green: 0, blue: 0, alpha: 190),
             UIColor.clear.cgColor
         ]
 
@@ -133,12 +130,13 @@ class PosterView: UIView {
 
     func update(rating: String?) {
         guard let rating = rating else {
-            ratingLabel.text = nil
+            ratingStarView.isHidden = true
             ratingLabelScrim.isHidden = true
             return
         }
 
-        ratingLabel.text = rating
+        ratingStarView.update(rating: rating)
+        ratingStarView.isHidden = false
         ratingLabelScrim.isHidden = false
     }
 
