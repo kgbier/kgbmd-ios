@@ -28,14 +28,19 @@ class RatingStarView: UIView {
         NSLayoutConstraint.activate([
             starImageView.leadingAnchor.constraint(equalTo: ratingLabel.trailingAnchor, constant: 4),
             starImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            starImageView.centerYAnchor.constraint(equalTo: ratingLabel.centerYAnchor),
-            starImageView.heightAnchor.constraint(lessThanOrEqualTo: ratingLabel.heightAnchor),
+            starImageView.topAnchor.constraint(equalTo: topAnchor),
+            starImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            starImageView.widthAnchor.constraint(equalTo: starImageView.heightAnchor),
         ])
 
     }
 
     func update(rating: String) {
         ratingLabel.text = rating
+
+        NSLayoutConstraint.activate([
+            starImageView.heightAnchor.constraint(equalToConstant: ratingLabel.intrinsicContentSize.height)
+        ])
     }
 
     required init?(coder: NSCoder) {
