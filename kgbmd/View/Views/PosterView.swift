@@ -38,7 +38,7 @@ class PosterView: UIView {
 
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .right
-        titleLabel.font = .systemFont(ofSize: 12)
+        titleLabel.font = .preferredFont(forTextStyle: .caption1)
         titleLabel.textColor = .white
 
         addSubview(titleLabel)

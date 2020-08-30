@@ -9,7 +9,7 @@ class RatingStarView: UIView {
         super.init(frame: frame)
 
         // MARK: Rating label
-        ratingLabel.font = .systemFont(ofSize: 12)
+        ratingLabel.font = .preferredFont(forTextStyle: .caption1)
         ratingLabel.textColor = .white
 
         addSubview(ratingLabel)
